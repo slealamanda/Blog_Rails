@@ -1,11 +1,19 @@
 FROM ruby:3.0.2
 
 # add nodejs and yarn dependencies for the frontend
-RUN curl -sL https://nsolid-deb.nodesource.com/nsolid_setup_4.x | bash -
+ENV NODE_VERSION=12.6.0
+RUN apt-get install -y curl
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+ENV NVM_DIR=/root/.nvm
+RUN . "$NVM_DIR/nvm.sh" && nvm install ${NODE_VERSION}
+RUN . "$NVM_DIR/nvm.sh" && nvm use v${NODE_VERSION}
+RUN . "$NVM_DIR/nvm.sh" && nvm alias default v${NODE_VERSION}
+ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
+RUN node --version
+RUN npm --version
 
-# Instala nossas dependencias
-RUN apt-get update && apt-get install -qq -y --no-install-recommends \
-nsolid-fermium nsolid-console build-essential libpq-dev
+COPY package.json ./
+RUN npm install
 
 
 # Seta nosso path
@@ -25,6 +33,9 @@ COPY Gemfile ./
 
 # Seta o path para as Gems
 ENV BUNDLE_PATH /gems
+
+# Roda o bundle
+RUN bundle install
 
 # Copia nosso código para dentro do container
 COPY . .
