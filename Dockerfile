@@ -15,6 +15,7 @@ RUN npm --version
 COPY package.json ./
 RUN npm install
 
+RUN npm install -g yarn
 
 # Seta nosso path
 ENV INSTALL_PATH /web_service
