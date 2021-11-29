@@ -1,0 +1,19 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: database-2.cm3u9zuoe6cg.us-east-1.rds.amazonaws.com
+  user: postgres
+  password: Capivara123
+
+development:
+  <<: *default
+  database: web_service_development
+
+test:
+  <<: *default
+  database: web_service_test
+
+production:
+  <<: *default
+  database: web_service_production
