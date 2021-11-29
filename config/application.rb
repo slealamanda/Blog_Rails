@@ -12,6 +12,7 @@ module WebService
     config.load_defaults 6.1
 
     config.hosts << "amanda-139144429.us-east-1.elb.amazonaws.com"
+    config.hosts << "amandaleal.ddns.net"
 
     # Configuration for the application, engines, and railties goes here.
     #
